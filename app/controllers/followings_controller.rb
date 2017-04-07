@@ -7,9 +7,9 @@ class FollowingsController < ApplicationController
   def index
     credentials = Base64.encode64("#{CONSUMER_KEY}:#{CONSUMER_SECRET}").gsub("\n", "")
 
-    post_url    = 'https://api.twitter.com/oauth2/token'
-    body        = 'grant_type=client_credentials'
-    headers     = {
+    post_url = 'https://api.twitter.com/oauth2/token'
+    body     = 'grant_type=client_credentials'
+    headers  = {
       "Authorization": "Basic #{credentials}",
       "Content-Type":  "application/x-www-form-urlencoded;charset=UTF-8"
     }
@@ -18,28 +18,38 @@ class FollowingsController < ApplicationController
     api_auth_header = {"Authorization": "Bearer #{bearer_token}"}
 
     friends_url   = "https://api.twitter.com/1.1/friends/ids.json?screen_name=#{current_user.screen_name}"
-    friends      = HTTParty.get(friends_url,   headers: api_auth_header).body
-    friends      = JSON.parse(friends)
+    friends       = HTTParty.get(friends_url,   headers: api_auth_header).body
+    friends       = JSON.parse(friends)
     followers_url = "https://api.twitter.com/1.1/followers/ids.json?screen_name=#{current_user.screen_name}"
-    followers    = HTTParty.get(followers_url, headers: api_auth_header).body
-    followers    = JSON.parse(followers)
+    followers     = HTTParty.get(followers_url, headers: api_auth_header).body
+    followers     = JSON.parse(followers)
 
     only_followings = {}
     only_followings[:ids] = friends['ids'] - followers['ids']
     only_followings[:url] = "https://api.twitter.com/1.1/users/lookup.json?user_id="
     only_followings[:data]
-    count = (params[:num].to_i - 1) * 100
 
-    if only_followings[:ids].count - count >= 100
+    if params[:num]
+      count = (params[:num].to_i - 1) * 100
+    else
+      count = 0
+    end
+
+    users_num = only_followings[:ids].count - count
+
+    if users_num >= 100
       100.times do |i|
         only_followings[:url] += only_followings[:ids][count].to_s + ','
         count += 1
       end
-    else
-      (only_followings[:ids].count - count).times do |i|
+    elsif users_num > 0 && users_num < 100
+      users_num.times do |i|
         only_followings[:url] += only_followings[:ids][count].to_s + ','
         count += 1
       end
+    else
+      @users = nil
+      return
     end
 
     only_followings[:url].chop!

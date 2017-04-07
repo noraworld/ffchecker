@@ -1,4 +1,8 @@
-<% @users.each do |user| %>
-<%= user['screen_name'] %>
-<br>
+<% if @users %>
+  <% @users.each do |user| %>
+    <%= user['screen_name'] %>
+    <br>
+  <% end %>
+<% else %>
+  <p>ユーザは存在しません</p>
 <% end %>
