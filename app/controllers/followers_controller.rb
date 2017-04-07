@@ -1,9 +1,9 @@
-class FollowingsController < ApplicationController
+class FollowersController < ApplicationController
   before_action :signed_in?
   include Checker
 
   def index
-    @users = check('followings')
+    @users = check('followers')
   end
 
   private

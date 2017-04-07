@@ -8,5 +8,8 @@ Rails.application.routes.draw do
   get 'followings'              => 'followings#index'
   get 'followings/page/:num'    => 'followings#index'
 
+  get 'followers'               => 'followers#index'
+  get 'followers/page/:num'     => 'followers#index'
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
