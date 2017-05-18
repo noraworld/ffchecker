@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  root 'welcome#index'
+
+  root 'index#index'
 
   get    'signin'                  => redirect('/auth/twitter')
   get    'auth/:provider/callback' => 'sessions#create'
