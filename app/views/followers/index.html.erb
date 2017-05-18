@@ -1,6 +1,7 @@
 <% if @users %>
   <% @users.each do |user| %>
-    <%= user['screen_name'] %>
+    <span><%= user['screen_name'] %></span>
+    <input class="follow" type="button" name="<%= user['screen_name'] %>" value="フォロー">
     <br>
   <% end %>
 <% else %>
