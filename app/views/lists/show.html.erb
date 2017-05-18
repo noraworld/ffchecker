@@ -1,0 +1,6 @@
+<% @members.attrs[:users].each do |member| %>
+  <ul>
+    <li><%= link_to '@' + member[:screen_name], 'https://twitter.com/' + member[:screen_name], :target => '_blank' %></li>
+    <input class="change" type="button" name="<%= member[:screen_name] %>" value="他のリストへ移動">
+  </ul>
+<% end %>
