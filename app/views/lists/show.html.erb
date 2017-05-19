@@ -1,6 +1,17 @@
-<% @members.attrs[:users].each do |member| %>
-  <ul>
-    <li><%= link_to '@' + member[:screen_name], 'https://twitter.com/' + member[:screen_name], :target => '_blank' %></li>
-    <input class="change" type="button" name="<%= member[:screen_name] %>" value="他のリストへ移動">
-  </ul>
+<p><a href="/lists">戻る</a></p>
+
+<p><%= @members.count %></p>
+
+<% @members.each do |member| %>
+  <input type="checkbox" id="lump" class="lump" name="<%= member[:screen_name] %>">
+  <span><%= link_to '@' + member[:screen_name], 'https://twitter.com/' + member[:screen_name], :target => '_blank' %></span>
+  <% if @muted_user_list.include?(member[:screen_name]) %>
+    <input class="unmute mute-button" type="button" name="<%= member[:screen_name] %>" value="ミュート解除">
+  <% else %>
+    <input class="mute mute-button" type="button" name="<%= member[:screen_name] %>" value="ミュート">
+  <% end %>
+  <input class="change" type="button" name="<%= member[:screen_name] %>" value="他のリストへ移動">
+  <br>
 <% end %>
+
+<input type="button" id="lump-mute" value="一括ミュート">

@@ -18,11 +18,8 @@ Rails.application.routes.draw do
   post   'follow/:username'        => 'actions#create'
   delete 'unfollow/:username'      => 'actions#destroy'
 
-  # post   'mute/:username'
-  # delete 'unmute/:username'
-
-  # post   'block/:username'
-  # delete 'unblock/:username'
+  post   'mute/:username'          => 'mutes#create'
+  delete 'unmute/:username'        => 'mutes#destroy'
 
   # post   'lists/move/:username/:listname_src/to/:listname_dest'
 

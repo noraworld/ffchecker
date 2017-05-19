@@ -1,4 +1,4 @@
-class ListsController < ApplicationController
+class MutesController < ApplicationController
   before_action :signed_in?
 
   @@client = Twitter::REST::Client.new do |config|
@@ -8,17 +8,16 @@ class ListsController < ApplicationController
     config.access_token_secret = ENV['TWITTER_ACCESS_TOKEN_SECRET']
   end
 
-  def index
-    @lists = @@client.lists()
+  def create
+    username = params[:username]
+    @@client.mute(username)
+    render :nothing => true, :status => 200 and return
   end
 
-  def show
-    @members = @@client.list_members(params[:listname])
-    muted_users = @@client.muted({:skip_status => true})
-    @muted_user_list = []
-    muted_users.each do |muted_user|
-      @muted_user_list.push(muted_user.screen_name)
-    end
+  def destroy
+    username = params[:username]
+    @@client.unmute(username)
+    render :nothing => true, :status => 200 and return
   end
 
   private

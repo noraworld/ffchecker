@@ -1,6 +1,8 @@
+<p><a href="/">戻る</a></p>
+
 <% if @users %>
   <% @users.each do |user| %>
-    <span><%= user['screen_name'] %></span>
+    <span><%= link_to '@' + user['screen_name'], 'https://twitter.com/' + user['screen_name'], :target => '_blank' %></span>
     <input class="follow" type="button" name="<%= user['screen_name'] %>" value="フォロー">
     <br>
   <% end %>
